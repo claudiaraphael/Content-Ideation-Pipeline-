@@ -1,0 +1,37 @@
+from flask import Flask, request, jsonify
+import requests
+import os
+from video_downloader import download_video_locally
+
+app = Flask(__name__)
+
+# Replace with your actual n8n Webhook URL
+N8N_WEBHOOK_URL = "https://your-n8n-instance.app.n8n.cloud/webhook/video-handler"
+
+@app.route("/process-video", methods=["POST"])
+def process_video():
+    data = request.json
+    video_url = data.get("url")
+    
+    if not video_url:
+        return jsonify({"error": "No URL provided"}), 400
+
+    try:
+        # 1. Download the video
+        file_path = download_video_locally(video_url)
+        
+        # 2. Send the file to n8n
+        with open(file_path, "rb") as f:
+            files = {'video': (os.path.basename(file_path), f, 'video/mp4')}
+            response = requests.post(N8N_WEBHOOK_URL, files=files)
+        
+        # 3. Cleanup local file after sending
+        os.remove(file_path)
+        
+        return jsonify({"status": "success", "n8n_response": response.status_code})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5500)

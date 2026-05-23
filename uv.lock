@@ -1,0 +1,23 @@
+version = 1
+revision = 3
+requires-python = ">=3.10"
+
+[[package]]
+name = "cip-local"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "clickup" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "clickup", specifier = ">=0.0.10" }]
+
+[[package]]
+name = "clickup"
+version = "0.0.10"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0c/19/efb7fdf50c65cfe1d0c2d8c138e337a5d6261e64d8f14494e0e772df77bf/clickup-0.0.10.tar.gz", hash = "sha256:69791a491b49be10f90e347f128c68e7fdcc839f553538c221158622bdbe1ef7", size = 3570, upload-time = "2019-05-08T02:27:00.851Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d3/7b/92faea77355802c495a65f42c45a6e61f56e56570e78f4ee31bced4f716b/clickup-0.0.10-py3-none-any.whl", hash = "sha256:f403cc869b7b118160cc717b63ce12877d6f6c4409cf5f6c220d165f465b3779", size = 4845, upload-time = "2019-05-08T02:26:58.955Z" },
+]
